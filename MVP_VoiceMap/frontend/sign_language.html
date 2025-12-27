@@ -4,29 +4,74 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign Language Mode (MVP Demo)</title>
-  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="./css/style.css">
 </head>
+
 <body>
-  <h1>Sign Language Mode (MVP Demo)</h1>
 
-  <audio controls>
-    <source src="/static/demo/demo_audio.wav" type="audio/wav">
-    Your browser does not support the audio element.
-  </audio>
+<h1>Sign Language Mode (MVP Demo)</h1>
 
-  <button id="demoBtnSign" class="action-btn green primary-btn">
-    RUN DEMO
-  </button>
+<audio controls>
+  <source src="./demo/demo_audio.wav" type="audio/wav">
+  Your browser does not support the audio element.
+</audio>
 
-  <div id="statusSign" class="status-text"></div>
+<button id="demoBtnSign" class="action-btn green primary-btn">
+  RUN DEMO
+</button>
 
-  <div class="video-box" id="videoContainer">
-    <span>Sign Output</span>
-  </div>
+<div id="statusSign" class="status-text"></div>
 
-  <!-- Load SIGN_MAP first -->
-  <script src="/static/signs/sign_map.js"></script>
-  <!-- Load main JS -->
-  <script src="/static/js/sign_language.js"></script>
+<div class="video-box" id="videoContainer">
+  <span>Sign Output</span>
+</div>
+
+<script src="./signs/sign_map.js"></script>
+
+<script>
+  document.getElementById("demoBtnSign").addEventListener("click", async () => {
+    const status = document.getElementById("statusSign");
+    const container = document.getElementById("videoContainer");
+
+    status.textContent = "Running sign demo...";
+    container.innerHTML = "";
+
+    try {
+      const res = await fetch(
+        "https://mvp-voicemap.onrender.com/sign-demo",
+        { method: "POST" }
+      );
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Demo failed");
+
+      playSigns(data.gloss);
+    } catch (e) {
+      status.textContent = e.message;
+    }
+  });
+
+  function playSigns(text) {
+    const video = document.createElement("video");
+    video.autoplay = true;
+    video.muted = true;
+    video.style.width = "100%";
+    document.getElementById("videoContainer").appendChild(video);
+
+    const words = text.toUpperCase().split(/\s+/);
+    let i = 0;
+
+    function next() {
+      if (i >= words.length) return;
+      const file = SIGN_MAP[words[i++]];
+      if (!file) return next();
+      video.src = "./signs/" + file;
+      video.onended = next;
+    }
+
+    next();
+  }
+</script>
+
 </body>
 </html>
