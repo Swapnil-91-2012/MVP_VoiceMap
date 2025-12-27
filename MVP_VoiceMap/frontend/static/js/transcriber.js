@@ -14,19 +14,24 @@ document.addEventListener("DOMContentLoaded", () => {
     outputText.textContent = "";
 
     try {
-      const res = await fetch("https://mvp-voicemap.onrender.com/transcribe-demo", {
-  method: "POST"
-})
-;
+      const res = await fetch(
+        "https://mvp-voicemap.onrender.com/transcribe-demo",
+        { method: "POST" }
+      );
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || "Demo transcription failed");
+      }
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Demo failed");
 
       statusDiv.textContent = "Transcription complete";
-      outputText.textContent = data.text;
+      outputText.textContent = data.text || "(No text returned)";
 
     } catch (err) {
-      statusDiv.textContent = err.message;
+      console.error(err);
+      statusDiv.textContent = `Error: ${err.message}`;
     }
   });
 
