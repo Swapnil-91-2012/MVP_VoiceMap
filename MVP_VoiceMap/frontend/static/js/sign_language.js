@@ -26,7 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
     videoContainer.innerHTML = "";
 
     try {
-      const res = await fetch("/sign-demo", { method: "POST" });
+      const res = await fetch("https://mvp-voicemap.onrender.com/sign-demo", {
+  method: "POST"
+})
+);
       console.log("Fetch response:", res);
 
       const data = await res.json();
