@@ -26,7 +26,7 @@ def get_gloss_service():
 
 
 # -------------------------
-# PATH SETUP (ROBUST)
+# PATH SETUP
 # -------------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -37,6 +37,7 @@ BACKEND_DEMO_AUDIO = os.path.join(
 FRONTEND_DEMO_AUDIO = os.path.abspath(
     os.path.join(BASE_DIR, "..", "frontend", "static", "demo", "demo_audio.wav")
 )
+
 
 def get_demo_audio_path():
     if os.path.exists(BACKEND_DEMO_AUDIO):
@@ -59,12 +60,12 @@ def index():
 # -------------------------
 @app.route("/transcribe-demo", methods=["POST"])
 def transcribe_demo():
-
     demo_audio = get_demo_audio_path()
+
     if not demo_audio:
         return jsonify({
             "error": "Demo audio not found",
-            "checked": [
+            "checked_paths": [
                 BACKEND_DEMO_AUDIO,
                 FRONTEND_DEMO_AUDIO
             ]
@@ -84,8 +85,32 @@ def transcribe_demo():
 # -------------------------
 @app.route("/sign-demo", methods=["POST"])
 def sign_demo():
-
     demo_audio = get_demo_audio_path()
+
     if not demo_audio:
         return jsonify({
             "error": "Demo audio not found",
+            "checked_paths": [
+                BACKEND_DEMO_AUDIO,
+                FRONTEND_DEMO_AUDIO
+            ]
+        }), 404
+
+    whisper_service = get_whisper_service()
+    gloss_service = get_gloss_service()
+
+    text, _ = whisper_service.transcribe(demo_audio)
+    gloss = gloss_service.gloss_text(text)
+
+    return jsonify({
+        "transcription": text,
+        "gloss": gloss
+    })
+
+
+# -------------------------
+# RUN
+# -------------------------
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
