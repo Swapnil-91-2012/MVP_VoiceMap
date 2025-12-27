@@ -1,5 +1,6 @@
 # Dependencies for the VoiceMap backend
 flask
+flask-cors
 gunicorn
 openai
 requests
