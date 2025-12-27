@@ -26,27 +26,15 @@
 </div>
 
 <script>
-document.getElementById("demoBtn").addEventListener("click", async () => {
-  const status = document.getElementById("status");
-  const output = document.getElementById("outputText");
+const DEMO_TRANSCRIPTION =
+"Hello world. This is a VoiceMap MVP demonstration.";
 
-  status.textContent = "Running demo transcription...";
-  output.textContent = "";
-
-  try {
-    const res = await fetch(
-      "https://mvp-voicemap.onrender.com/transcribe-demo",
-      { method: "POST" }
-    );
-
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Demo failed");
-
-    status.textContent = "Done";
-    output.textContent = data.text;
-  } catch (e) {
-    status.textContent = e.message;
-  }
+document.getElementById("demoBtn").addEventListener("click", () => {
+  document.getElementById("status").textContent = "Transcribing...";
+  setTimeout(() => {
+    document.getElementById("outputText").textContent = DEMO_TRANSCRIPTION;
+    document.getElementById("status").textContent = "Done";
+  }, 1200);
 });
 </script>
 
