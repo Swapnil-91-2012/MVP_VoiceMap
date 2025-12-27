@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Transcriber Mode (MVP Demo)</title>
-  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
@@ -12,8 +12,7 @@
 <h1>Transcriber Mode (MVP Demo)</h1>
 
 <audio controls>
-  <source src="./demo/demo_audio.wav" type="audio/wav">
-  Your browser does not support the audio element.
+  <source src="/static/demo/demo_audio.wav" type="audio/wav">
 </audio>
 
 <button id="demoBtn" class="action-btn blue primary-btn">
@@ -27,28 +26,28 @@
 </div>
 
 <script>
-  document.getElementById("demoBtn").addEventListener("click", async () => {
-    const status = document.getElementById("status");
-    const output = document.getElementById("outputText");
+document.getElementById("demoBtn").addEventListener("click", async () => {
+  const status = document.getElementById("status");
+  const output = document.getElementById("outputText");
 
-    status.textContent = "Running demo transcription...";
-    output.textContent = "";
+  status.textContent = "Running demo transcription...";
+  output.textContent = "";
 
-    try {
-      const res = await fetch(
-        "https://mvp-voicemap.onrender.com/transcribe-demo",
-        { method: "POST" }
-      );
+  try {
+    const res = await fetch(
+      "https://mvp-voicemap.onrender.com/transcribe-demo",
+      { method: "POST" }
+    );
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Demo failed");
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Demo failed");
 
-      status.textContent = "Done";
-      output.textContent = data.text;
-    } catch (e) {
-      status.textContent = e.message;
-    }
-  });
+    status.textContent = "Done";
+    output.textContent = data.text;
+  } catch (e) {
+    status.textContent = e.message;
+  }
+});
 </script>
 
 </body>
