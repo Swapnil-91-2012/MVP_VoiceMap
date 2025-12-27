@@ -1,8 +1,10 @@
 from flask import Flask, jsonify, send_from_directory
+from flask_cors import CORS
 import os
 import sys
 
 app = Flask(__name__)
+CORS(app)  
 
 # ---------------- HEALTH ---------------- #
 
