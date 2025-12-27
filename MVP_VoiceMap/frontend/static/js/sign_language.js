@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+
   const recordButton = document.getElementById("recordButtonSign");
   const uploadBtn = document.getElementById("uploadBtnSign");
   const uploadInput = document.getElementById("uploadSign");
@@ -6,37 +7,39 @@ document.addEventListener("DOMContentLoaded", () => {
   const videoContainer = document.getElementById("videoContainer");
   const demoBtn = document.getElementById("demoBtnSign");
 
-  // Check required DOM elements
   if (!statusDiv || !videoContainer || !demoBtn) {
     console.error("Missing essential DOM elements for Sign Language Mode");
     return;
   }
 
-  // Check SIGN_MAP
   if (!window.SIGN_MAP) {
     statusDiv.textContent = "Sign map failed to load.";
     console.error("SIGN_MAP not found");
     return;
   }
 
+  const API_BASE = "https://mvp-voicemap.onrender.com";
+
   // --- Demo Button ---
   demoBtn.addEventListener("click", async () => {
-    console.log("Demo button clicked");
     statusDiv.textContent = "Generating sign language demo...";
     videoContainer.innerHTML = "";
 
     try {
-      const res = await fetch("https://mvp-voicemap.onrender.com/sign-demo", {
-  method: "POST"
-})
-);
-      console.log("Fetch response:", res);
+      const res = await fetch(`${API_BASE}/sign-demo`, {
+        method: "POST"
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || "Demo failed");
+      }
 
       const data = await res.json();
-      console.log("Data received:", data);
 
-      if (!res.ok) throw new Error(data.error || "Demo failed");
-      if (!data.gloss || typeof data.gloss !== "string") throw new Error("Invalid gloss text from server");
+      if (!data.gloss || typeof data.gloss !== "string") {
+        throw new Error("Invalid gloss received from server");
+      }
 
       playSigns(data.gloss);
 
@@ -87,11 +90,21 @@ document.addEventListener("DOMContentLoaded", () => {
     formData.append("audio", audioData);
 
     try {
-      const res = await fetch("/sign-language", { method: "POST", body: formData });
+      const res = await fetch(`${API_BASE}/sign-language`, {
+        method: "POST",
+        body: formData
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || "Processing failed");
+      }
+
       const data = await res.json();
 
-      if (!res.ok) throw new Error(data.error || "Processing failed");
-      if (!data.transcription || typeof data.transcription !== "string") throw new Error("Invalid transcription from server");
+      if (!data.transcription || typeof data.transcription !== "string") {
+        throw new Error("Invalid transcription from server");
+      }
 
       playSigns(data.transcription);
 
@@ -103,12 +116,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Play signs from text ---
   function playSigns(text) {
-    if (!text || typeof text !== "string") {
-      statusDiv.textContent = "Invalid text for sign playback";
-      return;
-    }
+    videoContainer.innerHTML = "";
 
-    videoContainer.innerHTML = ""; // Clear previous content
     const words = text.toUpperCase().split(/\s+/);
     let index = 0;
 
@@ -116,6 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     video.autoplay = true;
     video.muted = true;
     video.style.width = "100%";
+
     videoContainer.appendChild(video);
 
     function next() {
@@ -128,17 +138,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const file = window.SIGN_MAP[word];
 
       if (!file) {
-        console.warn(`Missing video for word: "${word}"`);
-        next(); // skip missing word
+        console.warn(`Missing sign for: ${word}`);
+        next();
         return;
       }
 
       video.src = `/static/signs/${file}`;
-      video.play().catch(err => console.error("Video playback error:", err));
       video.onended = next;
+      video.play().catch(console.error);
     }
 
     statusDiv.textContent = "Playing demo...";
     next();
   }
+
 });
