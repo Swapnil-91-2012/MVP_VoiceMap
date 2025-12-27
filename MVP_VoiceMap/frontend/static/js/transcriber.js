@@ -14,9 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
     outputText.textContent = "";
 
     try {
-      const res = await fetch("/transcribe-demo", {
-        method: "POST"
-      });
+      const res = await fetch("https://mvp-voicemap.onrender.com/transcribe-demo", {
+  method: "POST"
+})
+;
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Demo failed");
