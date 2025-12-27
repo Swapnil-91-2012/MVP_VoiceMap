@@ -13,6 +13,7 @@
 
 <audio controls>
   <source src="/static/demo/demo_audio.wav" type="audio/wav">
+  Your browser does not support the audio element.
 </audio>
 
 <button id="demoBtnSign" class="action-btn green primary-btn">
@@ -21,54 +22,13 @@
 
 <div id="statusSign" class="status-text"></div>
 
-<div class="video-box" id="videoContainer"></div>
+<div class="video-box">
+  <span>Sign Output (Demo)</span>
+  <pre id="signText"></pre>
+</div>
 
 <script src="/static/signs/sign_map.js"></script>
-
-<script>
-const DEMO_TEXT = "HELLO WORLD";
-
-document.getElementById("demoBtnSign").addEventListener("click", () => {
-  document.getElementById("statusSign").textContent = "Playing sign demo...";
-  playSigns(DEMO_TEXT);
-});
-
-function playSigns(text) {
-  const container = document.getElementById("videoContainer");
-  container.innerHTML = "";
-
-  const video = document.createElement("video");
-  video.autoplay = true;
-  video.muted = true;
-  video.controls = false;
-  video.style.width = "100%";
-
-  container.appendChild(video);
-
-  const letters = text.replace(/\s+/g, "").split("");
-  let i = 0;
-
-  function next() {
-    if (i >= letters.length) {
-      document.getElementById("statusSign").textContent = "Demo complete";
-      return;
-    }
-
-    const letter = letters[i++];
-    const file = SIGN_MAP[letter];
-
-    if (!file) {
-      next();
-      return;
-    }
-
-    video.src = "/static/signs/" + file;
-    video.onended = next;
-  }
-
-  next();
-}
-</script>
+<script src="/static/js/sign_language.js"></script>
 
 </body>
 </html>
