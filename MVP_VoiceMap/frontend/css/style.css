@@ -1,0 +1,198 @@
+/* RESET */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* BACKGROUND */
+.bg-page {
+  min-height: 100vh;
+  background: url("../static/images/BACKGROUND_IMAGE.png") no-repeat center/cover;
+  color: #ffffff;
+}
+
+/* NAVBAR */
+.navbar {
+  padding: 1rem 2rem;
+  background: rgba(0,0,0,0.4);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  height: 40px;
+}
+
+.site-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* CENTERING */
+.center-wrapper {
+  min-height: calc(100vh - 72px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+/* GLASS PANEL */
+.glass-panel {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+}
+
+.glass-panel.vertical {
+  width: 420px;
+  text-align: center;
+}
+
+.glass-panel h1 {
+  margin-bottom: 2rem;
+}
+
+/* HOME */
+.home-panel {
+  display: flex;
+  gap: 3rem;
+}
+
+.home-card {
+  width: 260px;
+  text-align: center;
+  padding: 2rem;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.15);
+}
+
+.home-card img {
+  width: 120px;
+  margin-bottom: 1rem;
+}
+
+.home-card h2 {
+  margin-bottom: 0.5rem;
+}
+
+/* =========================
+   BUTTONS (ENHANCED ONLY)
+========================= */
+
+/* Shared button base */
+.action-btn,
+.primary-btn,
+.secondary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1.2rem;
+  padding: 1.05rem 1.4rem;   /* ⬅ bigger padding */
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.05rem;       /* ⬅ bigger text */
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  letter-spacing: 0.4px;
+  transition: all 0.25s ease;
+}
+
+/* Color variants */
+.blue { 
+  background: #3b82f6; 
+  color: white; 
+}
+
+.green { 
+  background: #22c55e; 
+  color: white; 
+}
+
+.gray { 
+  background: #6b7280; 
+  color: white; 
+}
+
+/* Hover states */
+.blue:hover { 
+  background: #2563eb; 
+  transform: translateY(-2px);
+}
+
+.green:hover { 
+  background: #16a34a; 
+  transform: translateY(-2px);
+}
+
+.gray:hover { 
+  background: #4b5563; 
+}
+
+/* Spacing between record & upload */
+.primary-btn,
+.secondary-btn {
+  margin: 0.6rem 0;
+}
+
+/* OR DIVIDER */
+.or-text {
+  margin: 1.5rem 0;
+  opacity: 0.85;
+  font-size: 0.9rem;
+}
+
+.or-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1.8rem 0;
+  color: rgba(255,255,255,0.75);
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.or-divider::before,
+.or-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.25);
+  margin: 0 14px;
+}
+
+/* OUTPUT */
+.output-box {
+  margin-top: 1.5rem;
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+  padding: 1rem;
+  min-height: 120px;
+}
+
+.video-box {
+  margin-top: 1.5rem;
+  height: 180px;
+  background: rgba(0,0,0,0.5);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
+}
+
+/* STATUS */
+.status-text {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}

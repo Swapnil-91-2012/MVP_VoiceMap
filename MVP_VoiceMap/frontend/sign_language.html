@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Language Mode (MVP Demo)</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <h1>Sign Language Mode (MVP Demo)</h1>
+
+  <audio controls>
+    <source src="/static/demo/demo_audio.wav" type="audio/wav">
+    Your browser does not support the audio element.
+  </audio>
+
+  <button id="demoBtnSign" class="action-btn green primary-btn">
+    RUN DEMO
+  </button>
+
+  <div id="statusSign" class="status-text"></div>
+
+  <div class="video-box" id="videoContainer">
+    <span>Sign Output</span>
+  </div>
+
+  <!-- Load SIGN_MAP first -->
+  <script src="/static/signs/sign_map.js"></script>
+  <!-- Load main JS -->
+  <script src="/static/js/sign_language.js"></script>
+</body>
+</html>
