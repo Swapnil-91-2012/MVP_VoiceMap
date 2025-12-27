@@ -5,3 +5,5 @@ openai
 requests
 python-dotenv
 werkzeug
+torch
+openai-whisper
