@@ -1,5 +1,6 @@
 # Dependencies for the VoiceMap backend
 flask
+gunicorn
 openai
 requests
 python-dotenv
