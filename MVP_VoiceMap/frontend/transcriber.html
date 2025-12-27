@@ -4,15 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Transcriber Mode (MVP Demo)</title>
-  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="../static/css/style.css">
 </head>
-
 <body>
 
 <h1>Transcriber Mode (MVP Demo)</h1>
 
 <audio controls>
-  <source src="/static/demo/demo_audio.wav" type="audio/wav">
+  <source src="../static/demo/demo_audio.wav" type="audio/wav">
 </audio>
 
 <button id="demoBtn" class="action-btn blue primary-btn">
@@ -25,18 +24,6 @@
   <pre id="outputText"></pre>
 </div>
 
-<script>
-const DEMO_TRANSCRIPTION =
-"Hello world. This is a VoiceMap MVP demonstration.";
-
-document.getElementById("demoBtn").addEventListener("click", () => {
-  document.getElementById("status").textContent = "Transcribing...";
-  setTimeout(() => {
-    document.getElementById("outputText").textContent = DEMO_TRANSCRIPTION;
-    document.getElementById("status").textContent = "Done";
-  }, 1200);
-});
-</script>
-
+<script src="../static/js/transcriber.js"></script>
 </body>
 </html>
