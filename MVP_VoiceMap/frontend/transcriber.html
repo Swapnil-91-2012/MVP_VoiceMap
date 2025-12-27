@@ -1,7 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transcriber Mode (MVP Demo)</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
 <h1>Transcriber Mode (MVP Demo)</h1>
 
 <audio controls>
-  <source src="static/demo/demo_audio.wav" type="audio/wav">
+  <source src="./demo/demo_audio.wav" type="audio/wav">
+  Your browser does not support the audio element.
 </audio>
 
 <button id="demoBtn" class="action-btn blue primary-btn">
@@ -14,4 +26,30 @@
   <pre id="outputText"></pre>
 </div>
 
-<script src="/static/js/transcriber.js"></script>
+<script>
+  document.getElementById("demoBtn").addEventListener("click", async () => {
+    const status = document.getElementById("status");
+    const output = document.getElementById("outputText");
+
+    status.textContent = "Running demo transcription...";
+    output.textContent = "";
+
+    try {
+      const res = await fetch(
+        "https://mvp-voicemap.onrender.com/transcribe-demo",
+        { method: "POST" }
+      );
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Demo failed");
+
+      status.textContent = "Done";
+      output.textContent = data.text;
+    } catch (e) {
+      status.textContent = e.message;
+    }
+  });
+</script>
+
+</body>
+</html>
